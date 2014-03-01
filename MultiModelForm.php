@@ -1349,6 +1349,16 @@ class MultiModelRenderForm extends CForm
                 { // existing fieldsets update
 
                     $prefix = 'u__';
+                    
+                    //workaround, if  composite pk and add default items
+                    //ex. yii implement CDbMessageSource.
+                    if (count($this->primaryKey) > 1)
+                    {
+                        $vals = array_values($this->primaryKey);
+                        if(empty($vals[0]))
+                            $prefix = 'n__';
+                    }
+                        
                     $element->name = '[' . $prefix . '][' . $this->index . ']' . $elemName;
                     $doRender = true;
                 } else
